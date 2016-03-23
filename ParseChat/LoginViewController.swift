@@ -22,6 +22,10 @@ class LoginViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        if PFUser.currentUser() != nil {
+            self.performSegueWithIdentifier("doLogin", sender: self)
+        }
 
         // Do any additional setup after loading the view.
     }
@@ -43,7 +47,8 @@ class LoginViewController: UIViewController {
             (user: PFUser?, error: NSError?) -> Void in
             if user != nil {
                 // Do stuff after successful login.
-                //displayMessage("login ok")
+                self.performSegueWithIdentifier("doLogin", sender: self)
+                
             } else {
                 // The login failed. Check error to see why.
                 self.displayMessage((error?.localizedDescription)!)
@@ -58,7 +63,7 @@ class LoginViewController: UIViewController {
             if userPassword.text == "" {
         self.displayMessage("password is required")
             } else {
-                var user = PFUser()
+                let user = PFUser()
                 user.username = userEmail.text
                 user.password = userPassword.text
                 // other fields can be set just like with PFObject
@@ -71,7 +76,7 @@ class LoginViewController: UIViewController {
                         self.displayMessage(errorString as! String)
                     } else {
                         print("sign up success")
-                        // Hooray! Let them use the app now.
+                        self.performSegueWithIdentifier("doLogin", sender: self)
                     }
                 }
         }
