@@ -24,7 +24,10 @@ class LoginViewController: UIViewController {
         super.viewDidLoad()
         
         if PFUser.currentUser() != nil {
-            self.performSegueWithIdentifier("doLogin", sender: self)
+            dispatch_async(dispatch_get_main_queue(), { 
+                self.performSegueWithIdentifier("doLogin", sender: self)
+            })
+            
         }
 
         // Do any additional setup after loading the view.
